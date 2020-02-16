@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<div>쇼핑 리스트</div>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div>
+    {% for item in items %}
+        <p>{{item.item_name}}</p>
+        <p>{{item.item_discount_rate}}</p>
+        <p>{{item.item_original_price}}</p>
+        <p>{{item.item_discount_price}}</p>
+    {% endfor %}
+</div>
+{% endblock%}
