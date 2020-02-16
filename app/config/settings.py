@@ -12,12 +12,21 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# Base
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR = os.path.dirname(BASE_DIR)
 
+# Templates
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
+# static
+STATIC_ROOT = os.path.join(ROOT_DIR, '.static')
 STATIC_URL = '/static/'
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    STATIC_DIR
+]
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '@8su5)1lvszs4afp91vdqgv9e_h9jq9qiae#9$yic9wix44x7n'
@@ -29,15 +38,18 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
+AUTH_USER_MODEL = 'member.User'
+
 INSTALLED_APPS = [
     'shoppingList.apps.ShoppinglistConfig',
+    'member.apps.MemberConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_extensions'
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -110,6 +122,3 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
