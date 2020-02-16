@@ -2,6 +2,15 @@
 {% load static %}
 {% block content %}
 <div>
+    <div>{{ request.user }}</div>
+    <div>{{ request.user.is_authenticated }}</div>
+
+    <form action="{% url 'shop:shopping-list'%}" method="POST">
+        {% csrf_token %}
+        <label> 검색하고자 하는 상품을 입력해 주세요:</label>
+        <input type="text" name="keyword">
+        <button>검색</button>
+    </form>
     {% for item in items %}
         <p>{{item.item_name}}</p>
         <p>{{item.item_discount_rate}}</p>
