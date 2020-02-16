@@ -1,42 +1,18 @@
-import re
-
-import requests
-from bs4 import BeautifulSoup
 from django.shortcuts import render, redirect
 
-# Create your views here.
+from shoppingList.crawler import data_crawler
 from shoppingList.models import Item
 
 
 def shoppingList(request):
-    items = Item.objects.all()
+    if request.method == 'POST':
+        print(request.user)
+        data_crawler(request, user=request.user, keyword=request.POST['keyword'])
+
+        return redirect('shop:shopping-list')
+    else:
+        items = Item.objects.all()
     context = {
-        'items':items
+        'items': items
     }
-    return render(request, 'shop/shoppingList.html',context)
-
-
-def data_crawler(request, keyword):
-    word = keyword
-    url = f'http://browse.gmarket.co.kr/search?keyword={word}'
-    page = requests.get(url)
-    soup = BeautifulSoup(page.text, 'html.parser')
-
-    product_title_list = [title.text for title in soup.find_all(class_='text__item')]
-    discount_rate = [''.join(re.compile('["률"](\d+%)').findall(a.text)) for a in soup.select(
-        'div.box__component > div.box__item-container > div.box__information > div.box__information-major')]
-    original_price = [''.join(re.compile('(상품금액 \d+,\d+)').findall(a.text)) for a in soup.select(
-        'div.box__component > div.box__item-container > div.box__information > div.box__information-major')]
-    discount_price = [''.join(re.compile('(할인적용금액 \d+,\d+)').findall(a.text)) for a in soup.select(
-        'div.box__component > div.box__item-container > div.box__information > div.box__information-major')]
-    full_list = [(h, i, j, k) for h, i, j, k in zip(product_title_list, discount_rate, original_price, discount_price)]
-
-    for items in full_list:
-        Item.objects.create(
-            item_name=items[0],
-            item_discount_rate=items[1],
-            item_original_price=items[2],
-            item_discount_price=items[3],
-        )
-
-    return redirect('shop:shopping-list')
+    return render(request, 'shop/shoppingList.html', context)
