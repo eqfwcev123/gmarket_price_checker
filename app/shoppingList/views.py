@@ -1,12 +1,19 @@
+import re
+
 import requests
 from bs4 import BeautifulSoup
-from django.http import HttpResponse
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
 
 # Create your views here.
+from shoppingList.models import Item
+
+
 def shoppingList(request):
-    return render(request, 'shop/shoppingList.html')
+    items = Item.objects.all()
+    context = {
+        'items':items
+    }
+    return render(request, 'shop/shoppingList.html',context)
 
 
 def data_crawler(request, keyword):
@@ -16,13 +23,20 @@ def data_crawler(request, keyword):
     soup = BeautifulSoup(page.text, 'html.parser')
 
     product_title_list = [title.text for title in soup.find_all(class_='text__item')]
-    product_discount_list = [discount_rate.text for discount_rate in
-                             soup.select('div.box__discount > span.text__value')]
-    product_selling_price_list = [selling_price.text for selling_price in
-                                  soup.select('div.box__price-seller > strong.text__value')]
-    product_original_price_list = [original_price.text for original_price in
-                                   soup.select('div.box__price-original > span.text__value')]
-    full_list = [(h, i, j, k) for h, i, j, k in
-                 zip(product_title_list, product_discount_list, product_selling_price_list,
-                     product_original_price_list)]
-    return HttpResponse(full_list)
+    discount_rate = [''.join(re.compile('["률"](\d+%)').findall(a.text)) for a in soup.select(
+        'div.box__component > div.box__item-container > div.box__information > div.box__information-major')]
+    original_price = [''.join(re.compile('(상품금액 \d+,\d+)').findall(a.text)) for a in soup.select(
+        'div.box__component > div.box__item-container > div.box__information > div.box__information-major')]
+    discount_price = [''.join(re.compile('(할인적용금액 \d+,\d+)').findall(a.text)) for a in soup.select(
+        'div.box__component > div.box__item-container > div.box__information > div.box__information-major')]
+    full_list = [(h, i, j, k) for h, i, j, k in zip(product_title_list, discount_rate, original_price, discount_price)]
+
+    for items in full_list:
+        Item.objects.create(
+            item_name=items[0],
+            item_discount_rate=items[1],
+            item_original_price=items[2],
+            item_discount_price=items[3],
+        )
+
+    return redirect('shop:shopping-list')

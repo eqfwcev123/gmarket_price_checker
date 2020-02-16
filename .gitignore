@@ -1,1 +1,3 @@
-# Created by .ignore support plugin (hsz.mobi)
+.python-version
+./app/Beautiful Soup.ipynb
+./app/.ipynb_checkpoints
