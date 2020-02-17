@@ -1,14 +1,125 @@
-.item-wrapper {
-    background-color: pink;
-    border: 3px solid black;
-    margin: 5px;
-    padding: 2px;
+body {
+    font-family: 'Poppins', sans-serif;
+    align-items: center;
+    min-height: 100vh;
+    font-size: 1.2rem;
+    background-image: url("../images/bgc2.jpg");
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
-.item-wrapper-label{
+.shopping-title {
+    background: #000000;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+.form__group {
+    position: relative;
+    padding: 15px 0 0;
+    margin: 0 auto;
+    width: 75%;
+}
+
+.form__field {
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid black;
+    outline: 0;
+    font-size: 1.3rem;
+    color: black;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+}
+
+.form__field::placeholder {
+    color: transparent;
+}
+
+.form__field:placeholder-shown ~ .form__label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+}
+
+.form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: black;
+}
+
+.form__field:focus {
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-image-slice: 1;
+}
+
+.form__field:focus ~ .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: #000000;
+    font-weight: 700;
+}
+
+/* reset input */
+.form__field:required, .form__field:invalid {
+    box-shadow: none;
+}
+
+.button__group{
+    text-align: center ;
+    margin: 10px 0;
+}
+
+.form__button {
+    display: inline-block;
+    width: 75%;
+    height: 3rem;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 5px;
+    border: 2px solid black;
+    background: beige;
+    box-sizing: border-box;
+    text-align: center;
+    color: black;
+    transition: all 0.6s;
+    font-size: 14px;
+}
+
+.form__button:hover {
+    color: black;
+    background: white;
+    border: 2px solid white;
+}
+
+
+.item-wrapper {
+    margin: 15px auto 0 auto;
+    border-radius: 15px;
+    background: rgba(241,220,210,0.8) ;
+    padding: 2px;
+    width: 75%;
+    text-align: center;
+}
+
+.item-wrapper-label {
     font-weight: bold;
 }
 
-.item-wrapper-info{
+.item-wrapper-info {
     display: inline-block;
 }
