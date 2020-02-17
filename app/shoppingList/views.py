@@ -6,7 +6,9 @@ from shoppingList.models import Item
 
 def shoppingList(request):
     if request.method == 'POST':
-        print(request.user)
+        item = Item.objects.all()
+        if item:
+            Item.objects.all().delete()
         data_crawler(request, user=request.user, keyword=request.POST['keyword'])
 
         return redirect('shop:shopping-list')
