@@ -12,10 +12,32 @@
         <button>검색</button>
     </form>
     {% for item in items %}
-        <p>{{item.item_name}}</p>
-        <p>{{item.item_discount_rate}}</p>
-        <p>{{item.item_original_price}}</p>
-        <p>{{item.item_discount_price}}</p>
-    {% endfor %}
+    <div class="item-wrapper">
+        <div><label class="item-wrapper-label">상품 이름: </label>
+            <p class="item-wrapper-info">{{item.item_name}}</p></div>
+
+        {% if item.item_discount_rate %}
+        <div><label class="item-wrapper-label">할인률: </label>
+            <p class="item-wrapper-info">{{item.item_discount_rate}}</p>
+        </div>
+        {% else %}
+        <div><label class="item-wrapper-label">할인률: 0%</label></div>
+        {% endif %}
+
+
+        <div><label class="item-wrapper-label">원가: </label>
+            <p class="item-wrapper-info">{{item.item_original_price}}</p></div>
+
+
+        {% if item.item_discount_price %}
+        <div><label class="item-wrapper-label">할인가: </label>
+            <p class="item-wrapper-info">{{item.item_discount_price}}</p></div>
+    </div>
+    {% else %}
+    <div><label class="item-wrapper-label">할인가: 없음</label></div>
+    {% endif %}
+
+</div>
+{% endfor %}
 </div>
 {% endblock%}
