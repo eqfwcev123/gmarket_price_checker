@@ -15,6 +15,7 @@ requests = "^2.22.0"
 Pillow = "^7.0.0"
 beautifulsoup4 = "^4.8.2"
 bs4 = "^0.0.1"
+scrapy = "^1.8.0"
 
 [tool.poetry.dev-dependencies]
 
