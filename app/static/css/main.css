@@ -1,3 +1,14 @@
-body{
-    background-color: #fff;
+.item-wrapper {
+    background-color: pink;
+    border: 3px solid black;
+    margin: 5px;
+    padding: 2px;
+}
+
+.item-wrapper-label{
+    font-weight: bold;
+}
+
+.item-wrapper-info{
+    display: inline-block;
 }
