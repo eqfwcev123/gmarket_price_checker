@@ -1,43 +1,53 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div>
-    <div>{{ request.user }}</div>
-    <div>{{ request.user.is_authenticated }}</div>
+    <div>
+        <div class="shopping-title">{{ request.user }}</div>
+        <div class="shopping-title">{{ request.user.is_authenticated }}</div>
 
-    <form action="{% url 'shop:shopping-list'%}" method="POST">
-        {% csrf_token %}
-        <label> 검색하고자 하는 상품을 입력해 주세요:</label>
-        <input type="text" name="keyword">
-        <button>검색</button>
-    </form>
-    {% for item in items %}
-    <div class="item-wrapper">
-        <div><label class="item-wrapper-label">상품 이름: </label>
-            <p class="item-wrapper-info">{{item.item_name}}</p></div>
+        <form action="{% url 'shop:shopping-list' %}" method="POST">
+            {% csrf_token %}
+            <h3 class="shopping-title"> 검색하고자 하는 상품을 입력해 주세요:</h3>
+            <div class="form__group">
+                <input class="form__field" type="text" name="keyword" placeholder="키워드를 입력해 주세요" required/>
+                <label class="form__label">키워드</label>
+            </div>
+            <div class="button__group">
+                <button class="form__button">검색</button>
+            </div>
 
-        {% if item.item_discount_rate %}
-        <div><label class="item-wrapper-label">할인률: </label>
-            <p class="item-wrapper-info">{{item.item_discount_rate}}</p>
-        </div>
-        {% else %}
-        <div><label class="item-wrapper-label">할인률: 0%</label></div>
-        {% endif %}
+        </form>
+        {% for item in items %}
+            <div class="item-wrapper">
+                <div><label class="item-wrapper-label">상품 이름: </label>
+                    <p class="item-wrapper-info">{{ item.item_name }}</p></div>
+
+                {% if item.item_discount_rate %}
+                    <div><label class="item-wrapper-label">할인률: </label>
+                        <p class="item-wrapper-info">{{ item.item_discount_rate }}</p>
+                    </div>
+                {% else %}
+                    <div><label class="item-wrapper-label">할인률:</label>
+                        <p class="item-wrapper-info">0%</p>
+                    </div>
+                {% endif %}
 
 
-        <div><label class="item-wrapper-label">원가: </label>
-            <p class="item-wrapper-info">{{item.item_original_price}}</p></div>
+                <div><label class="item-wrapper-label">원가: </label>
+                    <p class="item-wrapper-info">{{ item.item_original_price }}</p></div>
 
 
-        {% if item.item_discount_price %}
-        <div><label class="item-wrapper-label">할인가: </label>
-            <p class="item-wrapper-info">{{item.item_discount_price}}</p></div>
+                {% if item.item_discount_price %}
+                    <div><label class="item-wrapper-label">할인가: </label>
+                        <p class="item-wrapper-info">{{ item.item_discount_price }}</p></div>
+                    </div>
+                {% else %}
+                    <div><label class="item-wrapper-label">할인가: </label>
+                        <p class="item-wrapper-info">없음</p>
+                    </div>
+                {% endif %}
+
+            </div>
+        {% endfor %}
     </div>
-    {% else %}
-    <div><label class="item-wrapper-label">할인가: 없음</label></div>
-    {% endif %}
-
-</div>
-{% endfor %}
-</div>
-{% endblock%}
+{% endblock %}
