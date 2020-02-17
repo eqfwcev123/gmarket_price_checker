@@ -1,7 +1,6 @@
 # Create your views here.
 from django.shortcuts import render, redirect
-
-from member.forms import LoginForm
+from member.forms import LoginForm, SignupForm
 
 
 def login_view(request):
@@ -20,4 +19,12 @@ def login_view(request):
 
 
 def signup_view(request):
-    return render(request, 'members/signup.html')
+    if request.method == 'POST':
+        pass
+
+    else:
+        form = SignupForm()
+    context = {
+        'signupForm': form
+    }
+    return render(request, 'members/signup.html', context)
