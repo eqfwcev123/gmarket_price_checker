@@ -1,13 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<form action="" method="POST">
-    {% csrf_token %}
-    {% for field in loginForm%}
-    <div>
-        {{field}}
+    <h3 class="title">Login Form</h3>
+    <div class="form-wrapper">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% for field in loginForm %}
+            <div class="form-field-wrapper">
+                {{ field }}
+            </div>
+            {% endfor %}
+            <div class="form-button-wrapper">
+                <button type="submit">로그인</button>
+            </div>
+        </form>
     </div>
-    {% endfor %}
-    <button type="submit">로그인</button>
-</form>
+    <div class="signup-link">
+        <a href="{% url 'members:signup' %}">회원가입 페이지</a>
+    </div>
 {% endblock %}
