@@ -15,7 +15,7 @@ import os
 
 import boto3
 
-#### Boto3 로 SecretsManager 사용하기 설정  ####
+#### Boto3 로 SecretsManager 사용하기설정  ####
 
 region_name = "ap-northeast-2"
 session = boto3.Session(profile_name="gmarket-secrets-manager")
@@ -24,6 +24,14 @@ client_s3 = session.client(
     region_name="ap-northeast-2"
 )
 SECRETS = json.loads(client_s3.get_secret_value(SecretId="gmarket_sm")['SecretString'])
+
+#### S3 사용하기 ####
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+AWS_ACCESS_KEY_ID = SECRETS['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = SECRETS['AWS_SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = "gmarket-s3"
+AWS_AUTO_CREATE_BUCKET = True
+AWS_S3_REGION_NAME = "ap-northeast-2"
 
 ##### 경로 설정 ####
 # Base
@@ -40,6 +48,10 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     STATIC_DIR
 ]
+
+# MEDIA_ROOT
+MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
+MEDIA_URL = '/media'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '@8su5)1lvszs4afp91vdqgv9e_h9jq9qiae#9$yic9wix44x7n'
@@ -103,8 +115,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # 데이터베이스
-DATABASE = SECRETS['DATABASE']
-
+DATABASES = SECRETS['DATABASE']
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
