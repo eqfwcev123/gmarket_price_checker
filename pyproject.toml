@@ -16,6 +16,9 @@ Pillow = "^7.0.0"
 beautifulsoup4 = "^4.8.2"
 bs4 = "^0.0.1"
 scrapy = "^1.8.0"
+boto3 = "^1.12.2"
+psycopg2-binary = "^2.8.4"
+django-storages = "^1.9.1"
 
 [tool.poetry.dev-dependencies]
 
