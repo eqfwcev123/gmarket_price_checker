@@ -10,8 +10,22 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+import json
 import os
 
+import boto3
+
+#### Boto3 로 SecretsManager 사용하기 설정  ####
+
+region_name = "ap-northeast-2"
+session = boto3.Session(profile_name="gmarket-secrets-manager")
+client_s3 = session.client(
+    service_name="secretsmanager",
+    region_name="ap-northeast-2"
+)
+SECRETS = json.loads(client_s3.get_secret_value(SecretId="gmarket_sm")['SecretString'])
+
+##### 경로 설정 ####
 # Base
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = os.path.dirname(BASE_DIR)
@@ -27,14 +41,17 @@ STATICFILES_DIRS = [
     STATIC_DIR
 ]
 
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '@8su5)1lvszs4afp91vdqgv9e_h9jq9qiae#9$yic9wix44x7n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'localhost',
+    '*',
+    '13.125.247.190',
+]
 
 # Application definition
 
@@ -50,7 +67,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'storages',
+
 ]
+CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -82,15 +102,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+# 데이터베이스
+DATABASE = SECRETS['DATABASE']
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
