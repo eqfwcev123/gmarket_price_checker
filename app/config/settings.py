@@ -51,7 +51,7 @@ STATICFILES_DIRS = [
 
 # MEDIA_ROOT
 MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
-MEDIA_URL = '/media'
+MEDIA_URL = '/media/'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '@8su5)1lvszs4afp91vdqgv9e_h9jq9qiae#9$yic9wix44x7n'
