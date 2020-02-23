@@ -1,0 +1,23 @@
+# http 서버
+server {
+    listen 80;
+    server_name 13.125.247.190;
+
+    charset     utf-8;
+    location /static/{
+        alias   srv/gmarket_price_checker/.config;
+    }
+
+    location / {
+        proxy_pass http://unix:/run/gmarket.sock;
+    }
+
+}
+
+# https 서버
+#server {
+#
+#}
+
+# $host : host name from the request line, or host name from the “Host” request header field,
+# or the server name matching a request

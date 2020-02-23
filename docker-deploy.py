@@ -12,9 +12,10 @@ HOME = str(Path.home())
 SSH_KEY = os.path.join(HOME, ".ssh", "gmarket_secret.pem")
 PROJECT_FILE = os.path.join(HOME, "wps12th", "gmarket_price_checker")
 DOCKER_IMAGE_TAG = "eqfwcev123/docker-gmarket-price-checker"
+SECRETS = os.path.join(HOME, ".aws", "credentials")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("cmd", type=str, nargs=argparse.REMAINDER)
+parser.add_argument("cmd", type=str, nargs=argparse.REMAINDER, default='')
 args = parser.parse_args()
 
 # docker run --options
@@ -22,12 +23,12 @@ DOCKER_OPTIONS = [
     ('--rm', ''),
     ('-it', ''),
     ('-d', ''),
-    ('-p', '80:8000'),
+    # 컨테이너를 생성하면 기본적으로 외부와 통신이 불가능한 상태이다.
+    # 외부와 통신을 위해서는 Container 를 외부로 노출할 Port 를 지정해야 한다.
+    ('-p', '80:80'),
     ('-p', '443:443'),
     ('--name', 'gmarket_container'),
 ]
-
-print(1)
 
 
 # Local Host 에서 실행
@@ -45,13 +46,12 @@ def ssh_run(cmd, ignore_error=False):
 # requirements.txt 생성, 이미지 생성, 이미지 Docker hub에 올리기
 def local_build_push():
     run(f'poetry export -f requirements.txt > requirements.txt')
-    run(f'docker build -t {DOCKER_IMAGE_TAG} .')
-    run(f'docker push {DOCKER_IMAGE_TAG}')
+    run(f'docker build -t {DOCKER_IMAGE_TAG} .') # Host Os 에서 Docker 이미지 생성
+    run(f'docker push {DOCKER_IMAGE_TAG}') # 생성한 Docker 이미지를 Docker hub로 전달
 
 
 # 서버 초기설정
 def server_init():
-    print("server init 실행")
     ssh_run(f'sudo apt update')
     ssh_run(f'sudo DEBIAN_FRONTED=noninteractive apt -y dist-upgrade -y')
     ssh_run(f'sudo apt -y install docker.io')
@@ -60,7 +60,8 @@ def server_init():
 # 실행중인 컨테이너 stop, pull, run
 def server_pull_run():
     ssh_run(f'sudo docker stop gmarket_container', ignore_error=True)
-    ssh_run(f'sudo docker pull {DOCKER_IMAGE_TAG}')
+    ssh_run(f'sudo docker pull {DOCKER_IMAGE_TAG}') # Docker hub 에있는 Docker 이미지를 EC2 내부로 가져온다
+    # 가지고온 이미지를 실행
     ssh_run('sudo docker run {options} {tag} /bin/bash'.format(
         options=' '.join([
             f'{key} {value}' for key, value in DOCKER_OPTIONS
@@ -71,7 +72,10 @@ def server_pull_run():
 
 # HOST --> EC2 --> Container 로 secrets.json 전달
 def copy_secrets():
-    pass
+    # .aws/credentials 파일을 EC2 로 전달
+    run(f'scp -i {SSH_KEY} {SECRETS} {TARGET}:/tmp', ignore_error=True)
+    # HostOS 한테서 전달받은 .aws/credentials 파일을 EC2 --> Container로 전달
+    ssh_run(f'sudo docker cp /tmp/credentials gmarket_container:/root/.aws')
 
 
 # Container 에서 runserver
