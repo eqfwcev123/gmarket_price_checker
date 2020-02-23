@@ -42,7 +42,7 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 # static
-STATIC_ROOT = os.path.join(ROOT_DIR, '.static')
+STATIC_ROOT = os.path.join(ROOT_DIR, '.static') # STATIC_ROOT 디렉토리에 모든 정적파일을 모아둔다. collectstatic을 위해 사용
 STATIC_URL = '/static/'
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
