@@ -5,7 +5,7 @@ server {
 
     charset     utf-8;
     location /static/{
-        alias   srv/gmarket_price_checker/.config;
+        alias   /srv/gmarket_price_checker/.static/;
     }
 
     location / {
