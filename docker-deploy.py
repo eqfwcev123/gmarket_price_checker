@@ -10,7 +10,7 @@ HOST_NAME = "ubuntu"
 TARGET = f"{HOST_NAME}@{HOST_IP}"
 HOME = str(Path.home())
 SSH_KEY = os.path.join(HOME, ".ssh", "gmarket_secret.pem")
-PROJECT_FILE = os.path.join(HOME, "wps12th", "gmarket_price_checker")
+PROJECT_FILE = os.path.join(HOME, "projects", "wps12th", "gmarket_price_checker")
 DOCKER_IMAGE_TAG = "eqfwcev123/docker-gmarket-price-checker"
 SECRETS = os.path.join(HOME, ".aws", "credentials")
 
@@ -28,6 +28,7 @@ DOCKER_OPTIONS = [
     ('-p', '80:80'),
     ('-p', '443:443'),
     ('--name', 'gmarket_container'),
+    ('-v', '/etc/letsencrypt:/etc/letsencrypt') # 폴더를 공유하는것. 컨테이너 밖에서도 사용하게 해주는 기능
 ]
 
 
@@ -46,8 +47,8 @@ def ssh_run(cmd, ignore_error=False):
 # requirements.txt 생성, 이미지 생성, 이미지 Docker hub에 올리기
 def local_build_push():
     run(f'poetry export -f requirements.txt > requirements.txt')
-    run(f'docker build -t {DOCKER_IMAGE_TAG} .') # Host Os 에서 Docker 이미지 생성
-    run(f'docker push {DOCKER_IMAGE_TAG}') # 생성한 Docker 이미지를 Docker hub로 전달
+    run(f'docker build -t {DOCKER_IMAGE_TAG} .')  # Host Os 에서 Docker 이미지 생성
+    run(f'docker push {DOCKER_IMAGE_TAG}')  # 생성한 Docker 이미지를 Docker hub로 전달
 
 
 # 서버 초기설정
@@ -60,7 +61,7 @@ def server_init():
 # 실행중인 컨테이너 stop, pull, run
 def server_pull_run():
     ssh_run(f'sudo docker stop gmarket_container', ignore_error=True)
-    ssh_run(f'sudo docker pull {DOCKER_IMAGE_TAG}') # Docker hub 에있는 Docker 이미지를 EC2 내부로 가져온다
+    ssh_run(f'sudo docker pull {DOCKER_IMAGE_TAG}')  # Docker hub 에있는 Docker 이미지를 EC2 내부로 가져온다
     # 가지고온 이미지를 실행
     ssh_run('sudo docker run {options} {tag} /bin/bash'.format(
         options=' '.join([
@@ -80,7 +81,11 @@ def copy_secrets():
 
 # Container 에서 runserver
 def server_cmd():
-    pass
+    # Nginx를 설치하고 시스템을 재부팅 하면 Nginx가 자동으로 켜진다. 그 Nginx 를 끄고 우리의 supervisord 로 다시 실행할 것이다.
+    ssh_run(f'sudo docker exec gmarket_container /usr/sbin/nginx -s stop', ignore_error=True)
+    ssh_run(f'sudo docker exec gmarket_container python manage.py collectstatic --noinput')
+    ssh_run(f'sudo docker exec gmarket_container supervisord -c /srv/gmarket_price_checker/.config/supervisord.conf -n')
+    # supervisord 실행 명령어 :: supervisord -c [.conf파일 경로] -n(no daemon을 의미)
 
 
 if __name__ == '__main__':
