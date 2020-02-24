@@ -19,11 +19,11 @@ import boto3
 
 region_name = "ap-northeast-2"
 session = boto3.Session(profile_name="gmarket-secrets-manager")
-client_s3 = session.client(
+secretsmanager = session.client(
     service_name="secretsmanager",
     region_name="ap-northeast-2"
 )
-SECRETS = json.loads(client_s3.get_secret_value(SecretId="gmarket_sm")['SecretString'])
+SECRETS = json.loads(secretsmanager.get_secret_value(SecretId="gmarket_sm")['SecretString'])
 
 #### S3 사용하기 ####
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
