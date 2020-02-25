@@ -80,6 +80,7 @@ def copy_secrets():
 
 
 # Container 에서 runserver
+# 자동 실행중인 Nginx를 끄기 - 정적파일 모아주기 - supervisord로 gunicorn 이랑 Nginx 실행
 def server_cmd():
     # Nginx를 설치하고 시스템을 재부팅 하면 Nginx가 자동으로 켜진다. 그 Nginx 를 끄고 우리의 supervisord 로 다시 실행할 것이다.
     ssh_run(f'sudo docker exec gmarket_container /usr/sbin/nginx -s stop', ignore_error=True)
