@@ -1,0 +1,16 @@
+# http 서버
+server {
+    listen 8000;
+    server_name default_server;
+    charset     utf-8;
+
+    location / {
+        proxy_pass      http://unix:/run/gmarket.sock;
+    }
+
+    # 우리가 이 도메인의 소유자인것을 인증하기 위해, .well-known/acme-challenge/[번호] 로 접근할 경우 다른 고유의 번호를 반환해야한다.
+    location /static/ {
+        alias           /srv/gmarket.sock/;
+    }
+
+}
