@@ -28,7 +28,7 @@ DOCKER_OPTIONS = [
     ('-p', '80:80'),
     ('-p', '443:443'),
     ('--name', 'gmarket_container'),
-    ('-v', '/etc/letsencrypt:/etc/letsencrypt') # 폴더를 공유하는것. 컨테이너 밖에서도 사용하게 해주는 기능
+    ('-v', '/etc/letsencrypt:/etc/letsencrypt'),  # 폴더를 공유하는것. 컨테이너 밖에서도 사용하게 해주는 기능
 ]
 
 
@@ -85,7 +85,7 @@ def server_cmd():
     # Nginx를 설치하고 시스템을 재부팅 하면 Nginx가 자동으로 켜진다. 그 Nginx 를 끄고 우리의 supervisord 로 다시 실행할 것이다.
     ssh_run(f'sudo docker exec gmarket_container /usr/sbin/nginx -s stop', ignore_error=True)
     ssh_run(f'sudo docker exec gmarket_container python manage.py collectstatic --noinput')
-    ssh_run(f'sudo docker exec gmarket_container supervisord -c /srv/gmarket_price_checker/.config/supervisord.conf -n')
+    ssh_run(f'sudo docker exec gmarket_container supervisord -c /srv/gmarket_price_checker/.config/supervisord.conf')
     # supervisord 실행 명령어 :: supervisord -c [.conf파일 경로] -n(no daemon을 의미)
 
 
