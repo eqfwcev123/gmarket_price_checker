@@ -1,5 +1,5 @@
 daemon = False
-chdir = '/srv/gmarkek_price_checker/app'
+chdir = '/srv/gmarket_price_checker/app'
 bind = 'unix:/run/gmarket.sock'
 accessing = '/var/log/gunicorn/gmarket-access.log'
 errorlog = '/var/log/gunicorn/gmarket-error.log'
