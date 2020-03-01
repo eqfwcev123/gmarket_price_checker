@@ -353,3 +353,4 @@ $RECYCLE.BIN/
 /.static
 requirements.txt
 secrets.json
+.cert
