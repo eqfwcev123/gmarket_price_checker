@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
     <div>
+        <div class="shopping-title"><a href="{% url 'members:logout' %}">로그아웃</a></div>
         <div class="shopping-title">{{ request.user }}</div>
         <div class="shopping-title">{{ request.user.is_authenticated }}</div>
 
@@ -19,30 +20,38 @@
         </form>
         {% for item in items %}
             <div class="item-wrapper">
-                <div><label class="item-wrapper-label">상품 이름: </label>
-                    <p class="item-wrapper-info">{{ item.item_name }}</p></div>
+                <div>
+                    <label class="item-wrapper-label">상품 이름: </label>
+                    <p class="item-wrapper-info">{{ item.item_name }}</p>
+                </div>
 
                 {% if item.item_discount_rate %}
-                    <div><label class="item-wrapper-label">할인률: </label>
+                    <div>
+                        <label class="item-wrapper-label">할인률: </label>
                         <p class="item-wrapper-info">{{ item.item_discount_rate }}</p>
                     </div>
                 {% else %}
-                    <div><label class="item-wrapper-label">할인률:</label>
+                    <div>
+                        <label class="item-wrapper-label">할인률:</label>
                         <p class="item-wrapper-info">0%</p>
                     </div>
                 {% endif %}
 
 
-                <div><label class="item-wrapper-label">원가: </label>
-                    <p class="item-wrapper-info">{{ item.item_original_price }}</p></div>
+                <div>
+                    <label class="item-wrapper-label">원가: </label>
+                    <p class="item-wrapper-info">{{ item.item_original_price }}</p>
+                </div>
 
 
                 {% if item.item_discount_price %}
-                    <div><label class="item-wrapper-label">할인가: </label>
-                        <p class="item-wrapper-info">{{ item.item_discount_price }}</p></div>
+                    <div>
+                        <label class="item-wrapper-label">할인가: </label>
+                        <p class="item-wrapper-info">{{ item.item_discount_price }}</p>
                     </div>
                 {% else %}
-                    <div><label class="item-wrapper-label">할인가: </label>
+                    <div>
+                        <label class="item-wrapper-label">할인가: </label>
                         <p class="item-wrapper-info">없음</p>
                     </div>
                 {% endif %}
