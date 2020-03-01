@@ -14,7 +14,10 @@ def shoppingList(request):
         return redirect('shop:shopping-list')
     else:
         items = Item.objects.all()
-    context = {
-        'items': items
-    }
-    return render(request, 'shop/shoppingList.html', context)
+    if request.user.is_authenticated:
+        context = {
+            'items': items
+        }
+        return render(request, 'shop/shoppingList.html', context)
+    else:
+        return redirect('members:login')
