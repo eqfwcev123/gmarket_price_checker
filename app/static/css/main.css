@@ -3,18 +3,30 @@ body {
     align-items: center;
     min-height: 100vh;
     font-size: 1.2rem;
-    background-image: url("../images/bgc2.jpg");
+    /*background-image: url("../images/bgc2.jpg");*/
     height: 100%;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
 }
+/* 로그인 페이지 */
+.error-list{
+    list-style: none;
+    margin:0;
+    padding-left:0;
+    font-weight: bold;
+    color:red;
+}
 
+
+
+
+/* 쇼핑 리스트 페이지 */
 .shopping-title {
     background: #000000;
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color: red;
     text-align: center;
 }
 
