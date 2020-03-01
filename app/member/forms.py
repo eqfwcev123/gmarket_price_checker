@@ -24,7 +24,7 @@ class LoginForm(forms.Form):
         password = self.cleaned_data['password']
         user = authenticate(username=username, password=password)
         if not user:
-            raise ValidationError("아이디 혹은 비밀번호를 잘못 입력하셨 습니다.")
+            raise ValidationError("아이디 혹은 비밀번호를 잘못 입력하셨습니다.")
         return self.cleaned_data
 
     def login(self, request):
