@@ -1,19 +1,30 @@
 # http 서버
 server {
     listen 80;
-    server_name gmarket-pricechecker.xyz www.gmarket-pricechecker.xyz;
+    server_name wps-eqfwcev123.xyz www.wps-eqfwcev123.xyz;
     charset     utf-8;
 
-#    location / {
-#        return 301 https://$host$request_uri;
-#    }
+    location / {
+        return 301 https://$host$request_uri;
+    }
 
     # 우리가 이 도메인의 소유자인것을 인증하기 위해, .well-known/acme-challenge/[번호] 로 접근할 경우 다른 고유의 번호를 반환해야한다.
     location /.well-known/acme-challenge/ {
         alias   /srv/gmarket_price_checker/.cert/;
     }
+}
 
-        location /static/{
+# https 서버
+server {
+    listen 443 ssl;
+    server_name wps-eqfwcev123.xyz www.wps-eqfwcev123.xyz;
+    charset utf-8;
+    ssl on;
+
+    ssl_certificate         /etc/letsencrypt/live/wps-eqfwcev123.xyz/fullchain.pem;
+    ssl_certificate_key     /etc/letsencrypt/live/wps-eqfwcev123.xyz/privkey.pem;
+
+    location /static/{
         alias   /srv/gmarket_price_checker/.static/;
     }
 
@@ -23,27 +34,6 @@ server {
     }
 
 }
-
-# https 서버
-#server {
-#    listen 443 ssl;
-#    server_name gmarket-pricechecker.xyz www.gmarket-pricechecker.xyz;
-#    charset utf-8;
-#    ssl on;
-#
-#    ssl_certificate         /etc/letsencrypt/live/www.gmarket-pricechecker.xyz/fullchain.pem;
-#    ssl_certificate_key     /etc/letsencrypt/live/www.gmarket-pricechecker.xyz/privkey.pem;
-#
-#    location /static/{
-#        alias   /srv/gmarket_price_checker/.static/;
-#    }
-#
-#    location / {
-#        include     /etc/nginx/proxy_params;
-#        proxy_pass http://unix:/run/gmarket.sock;
-#    }
-#
-#}
 
 # $host : host name from the request line, or host name from the “Host” request header field,
 # or the server name matching a request
