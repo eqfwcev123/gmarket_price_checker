@@ -219,6 +219,14 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 category = "main"
+description = "Django pagination tools supporting Ajax, multiple and lazy pagination, Twitter-style and Digg-style pagination."
+name = "django-el-pagination"
+optional = false
+python-versions = "*"
+version = "3.3.0"
+
+[[package]]
+category = "main"
 description = "Extensions for Django"
 name = "django-extensions"
 optional = false
@@ -1110,7 +1118,7 @@ test = ["zope.event"]
 testing = ["coverage", "nose", "zope.event"]
 
 [metadata]
-content-hash = "e324b296242a195e76aa38d54d58dbee40af6f15d099cee862d007b22678619a"
+content-hash = "084d92665b152da6d192ef5f1409bca60d0581c8a1de2f7467f44540c2b9541e"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1234,6 +1242,9 @@ defusedxml = [
 django = [
     {file = "Django-2.2.10-py3-none-any.whl", hash = "sha256:9a4635813e2d498a3c01b10c701fe4a515d76dd290aaa792ccb65ca4ccb6b038"},
     {file = "Django-2.2.10.tar.gz", hash = "sha256:1226168be1b1c7efd0e66ee79b0e0b58b2caa7ed87717909cd8a57bb13a7079a"},
+]
+django-el-pagination = [
+    {file = "django-el-pagination-3.3.0.tar.gz", hash = "sha256:46cb7311b4c7a35690ff0a972e71c782f3cfcd42968ef78993b7980377e9860e"},
 ]
 django-extensions = [
     {file = "django-extensions-2.2.8.tar.gz", hash = "sha256:2699cc1d6fb4bd393c0b5832fea4bc685f2ace5800b3c9ff222b2080f161ac04"},
