@@ -126,6 +126,9 @@ body {
     width: 75%;
     text-align: center;
 }
+.pagination-wrapper{
+    background: #ffffff;
+}
 
 .item-wrapper-label {
     font-weight: bold;
