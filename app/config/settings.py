@@ -42,7 +42,7 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 # static
-STATIC_ROOT = os.path.join(ROOT_DIR, '.static') # STATIC_ROOT 디렉토리에 모든 정적파일을 모아둔다. collectstatic을 위해 사용
+STATIC_ROOT = os.path.join(ROOT_DIR, '.static')  # STATIC_ROOT 디렉토리에 모든 정적파일을 모아둔다. collectstatic을 위해 사용
 STATIC_URL = '/static/'
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
@@ -81,6 +81,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'storages',
 
+    # 외부 라이브러리
+    'el_pagination',
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -134,6 +136,12 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Template Pagination
+EL_PAGINATION_DEFAULT_CALLABLE_ARROWS = True
+EL_PAGINATION_PER_PAGE = 10
+EL_PAGINATION_DEFAULT_CALLABLE_EXTREMES = 3  # 처음에 앞뒤로 몇개를 보여줄 것인지
+EL_PAGINATION_DEFAULT_CALLABLE_AROUNDS = 2  # 현재페이지 전후로 몇개를 보여줄것인지
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
