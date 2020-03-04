@@ -1,5 +1,5 @@
 # Create your views here.
-from django.contrib.auth import logout
+from django.contrib.auth import logout, login
 from django.shortcuts import render, redirect
 from member.forms import LoginForm, SignupForm
 
@@ -21,8 +21,11 @@ def login_view(request):
 
 def signup_view(request):
     if request.method == 'POST':
-        pass
-
+        form = SignupForm(data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request,user)
+            return redirect('shop:shopping-list')
     else:
         form = SignupForm()
     context = {
