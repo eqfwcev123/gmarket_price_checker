@@ -81,7 +81,7 @@ class SignupForm(forms.Form):
         return email
 
     def save(self):
-        User.objects.create(
+        User.objects.create_user(
             username=self.cleaned_data['username'],
             password=self.cleaned_data['password'],
             email=self.cleaned_data['email'],
