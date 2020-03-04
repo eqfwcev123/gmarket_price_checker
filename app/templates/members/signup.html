@@ -9,6 +9,13 @@
             <div class="form-field-wrapper">
                 {{ field }}
             </div>
+                {% if field.errors %}
+                    <ul class="error-list">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             {% endfor %}
             <div class="form-button-wrapper">
                 <button type="submit">회원가입</button>
