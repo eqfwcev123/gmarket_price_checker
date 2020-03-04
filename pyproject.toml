@@ -21,6 +21,7 @@ psycopg2-binary = "^2.8.4"
 django-storages = "^1.9.1"
 supervisor = "^4.1.0"
 django-el-pagination = "^3.3.0"
+selenium = "^3.141.0"
 
 [tool.poetry.dev-dependencies]
 
